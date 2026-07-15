@@ -1,0 +1,81 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "infolang-autogen"
+dynamic = ["version"]
+description = "InfoLang semantic memory integration for AutoGen (autogen-agentchat)."
+readme = "README.md"
+requires-python = ">=3.11"
+license = "Apache-2.0"
+authors = [{ name = "InfoLang", email = "engineering@infolang.ai" }]
+keywords = [
+  "infolang",
+  "autogen",
+  "autogen-agentchat",
+  "semantic-memory",
+  "agents",
+  "llm",
+  "memory",
+]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: Apache Software License",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Typing :: Typed",
+]
+dependencies = [
+  "infolang>=0.2,<0.3",
+  "autogen-agentchat>=0.4",
+  "autogen-core>=0.4",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8",
+  "pytest-asyncio>=0.23",
+  "pytest-cov>=5",
+  "ruff>=0.6",
+  "mypy>=1.11",
+]
+
+[project.urls]
+Homepage = "https://infolang.ai"
+Documentation = "https://infolang.ai/docs/integrations/autogen"
+Source = "https://github.com/InfoLang-Inc/infolang-autogen"
+Issues = "https://github.com/InfoLang-Inc/infolang-autogen/issues"
+
+[tool.hatch.version]
+path = "src/infolang_autogen/_version.py"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/infolang_autogen"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+addopts = "-m 'not live' --cov=infolang_autogen --cov-report=term-missing --cov-fail-under=90"
+markers = [
+  "live: exercises the real InfoLang API over the network (opt in with -m live)",
+]
+
+[tool.coverage.run]
+source = ["src/infolang_autogen"]
+branch = true
+
+[tool.ruff]
+target-version = "py311"
+line-length = 100
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "C4", "SIM"]
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+files = ["src/infolang_autogen"]
